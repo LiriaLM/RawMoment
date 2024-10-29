@@ -1,0 +1,95 @@
+
+.boton {
+    border-radius: 0px;
+    height: 5vh;
+    margin: auto;
+    display: block;
+    margin: auto ;
+
+    font-family: "Bebas Neue", sans-serif;
+    font-style: normal;
+    color: #000000;
+}
+
+.boton1{
+    background-color: #CBB2CD;
+    border-color: #CBB2CD;
+}
+
+.boton1:hover{
+    background-color: #e2ace6;
+    border-color: #e2ace6;
+
+}
+
+.boton2{
+       background-color: #E8CCB1;
+    border-color: #E8CCB1;
+}
+
+.boton2:hover{
+    background-color:#ddc0a5 ;
+    border-color: #ddc0a5 ;
+}
+.o{
+    text-align: center;
+    color: #000000;
+    font-family: "Bebas Neue", sans-serif;
+    font-style: normal;
+}
+
+
+
+.titul {
+    margin: auto ;
+    margin-left: 49px;
+    font-family: "Bebas Neue", sans-serif;
+    font-style: normal;
+    font-size: 40px;
+}
+
+.modal-content{
+    border-radius: 0px;
+    width: 90%;
+}
+.form-control{
+   
+    background-color:#D9D9D9 ;
+    border-radius: 0px;
+    height: 5vh;
+    width: 300px;
+    margin: auto;
+}
+
+.form-label{
+    padding-left: 58px; 
+
+}
+
+
+.logo-img {
+    width: 50%; 
+    margin: 0 auto;
+}
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logged-in{
+    margin: 10px;
+}
+
+.user{
+    margin: 5px;
+}
+
+
+
+
+
+
+
+
+
