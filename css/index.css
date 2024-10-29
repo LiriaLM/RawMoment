@@ -1,0 +1,32 @@
+.body{
+    background-color: #EABF8E;
+}
+.info{
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px rgba(245, 245, 220, 0) solid;
+    margin: 10px;
+    padding: 1px;
+    height: 40px ;
+    border-radius: 6px;
+    color: black;
+    
+}
+.iniciar{
+    background-color: #CBB2CD;
+    border: 1px #CBB2CD solid;
+    margin: 10px;
+    padding: 1px;
+   height: 40px;
+   border-radius: 6px;
+   color: black;
+
+}
+.registrar{
+    background-color: #E8CCB1 ;
+    border: 1px #E8CCB1 solid;
+    margin: 10px;
+    padding: 1px;
+    height: 40px;
+    border-radius: 6px;
+    color: black;
+}
