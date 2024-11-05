@@ -31,28 +31,42 @@ onAuthStateChanged(auth, async (user) => {
     if (user) { //Si el usuario está logueado, entonces ....
         userEmail = user.email;
         //Conseguir datos de usuario actual de la base de datos
+
+        //carga de nombre
         const docUser = await getDoc(doc(db, "usuarios", user.uid));
         const usuario = docUser.data();
         usuarioId = docUser.id;
         document.getElementById("quePiensasBtn").innerText = `PUBLICAR`;
         document.getElementById("avatar-foto").src = usuario.avatarUrl;
+       // document.getElementById("nombreUser").innerText = usuario.nombres;
+      //  document.getElementById("avatar").src = usuario.avatarUrl;
         //
         //LLamar al nombre del usurario en el boton que estas pensando
         await onSnapshot(collection(db, "posts"), (Querysnapshot) => {
 
             var documentos = Querysnapshot.docs //TODOS LOS DOCS
-
-            //Columna izq: mis post
-            let misPosts = documentos.filter(function (doc) { return user.email == doc.data().userEmail });
-            misPosts = misPosts.sort((a, b) => b.data().fecha.toDate().getTime() - a.data().fecha.toDate().getTime())
-            pintarPost(misPosts);
-            console.log(misPosts)
-
-            //Columna der: otros post
+            console.log(window.location.pathname);
+            if (window.location.pathname === "/usuario.html" ) {
+                //Columna izq: mis post
+                let misPosts = documentos.filter(function (doc) { return user.email == doc.data().userEmail });
+                misPosts = misPosts.sort((a, b) => b.data().fecha.toDate().getTime() - a.data().fecha.toDate().getTime())
+                pintarPost(misPosts);
+                console.log(misPosts)
+            }else if(window.location.pathname === "/index.html"){  
+                //Columna der: otros post
             let otrosPosts = documentos.filter(function (doc) { return user.email != doc.data().userEmail });
             otrosPosts = otrosPosts.sort((a, b) => b.data().fecha.toDate().getTime() - a.data().fecha.toDate().getTime())
             pintarPostOtros(otrosPosts);
             console.log(otrosPosts)
+            }else if (window.location.pathname === "/likes.html"){
+                let likePosts = documentos.filter(function (doc){ return doc.data().personasLiked.includes(user.email)
+
+                })
+                pintarPostLikes(likePosts)
+            }
+
+
+            
             //Columna
 
             //Elimiar Post
@@ -123,10 +137,14 @@ onAuthStateChanged(auth, async (user) => {
 })
 
 function pintarPost(datos) {
+    
     if (datos.length) {
-        let html = ''
+        let colIzq = ''
+        let colDer = ""
+        var col = 1
         datos.forEach(doc => {
             const post = doc.data()
+            
             let iconoLike = "";
             if (post.personasLiked.includes(userEmail)) { //deberia pintarse la mano
                 iconoLike = `<i class="bi bi-heart-fill"></i>`
@@ -135,21 +153,31 @@ function pintarPost(datos) {
             }
 
             const li = `
-                <li class="list-group-item list-group-item-action list-group-item-dark "  >
-                    <h4>${post.userEmail} publicó: </h4>
+                <li class="list-group-item list-group-item-action list-group-item-dark mb-5" style="background-color: black; color: aliceblue; border: 0px; border-radius: 7px ;"  >
+                    <h5>${post.userEmail} publicó: </h5>
                     <p>${formatoFechaHora(post.fecha.toDate())}</p>
-                  <h5>${post.titulo}</h5>
+                  <h4>${post.titulo}</h4>
                   <p>${post.descripcion}</p>
-                  <img src="${post.imagenURL}" style="width:100%" />
-                  <button class="btn-delete" data-id="${doc.id}">Delete</button>
-                  <button class="btn-edit" data-id="${doc.id}">Edit</button>
-                  <button class="btn-like" data-id="${doc.id}">${iconoLike}</button>
+                  <img src="${post.imagenURL}" style="width:100%; padding: 5%;border-radius: 5px;" />
+                  <button class="btn-delete" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}"><i class="bi bi-trash3"></i></button>
+                  <button class="btn-edit" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}"><i class="bi bi-pencil-square"></i></button>
+                  <button class="btn-like" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}">${iconoLike}</button>
                    <p> A ${post.personasLiked.length} personas les gusta esto. </p>
                 </li>
                 `
-            html += li
+                if (col == 1) {
+                    colIzq += li
+                    col = 2 
+                    console.log("entro iz");
+                }else{
+                    colDer += li
+                    col = 1
+                    console.log("entro der");
+                }
+           
         });
-        listaPost.innerHTML = html
+        listaPost.innerHTML = colIzq
+        listaPostOtros.innerHTML = colDer
     } else {
         listaPost.innerHTML = `<h1>Aun no hay posts que mostrar</h1>`
     }
@@ -159,7 +187,9 @@ function pintarPost(datos) {
 
 function pintarPostOtros(datos) {
     if (datos.length) {
-        let html = ''
+        let colIzq = ''
+        let colDer = ""
+        var col = 1
         datos.forEach(doc => {
             const post = doc.data()
             let iconoLike = "";
@@ -169,27 +199,95 @@ function pintarPostOtros(datos) {
                 iconoLike = `<i class="bi bi-heart"></i>`
             }
             const li = `
-                <li class="list-group-item list-group-item-action list-group-item-dark ">
-                  <h4>${post.userEmail} publicó: </h4>
+                <li class="list-group-item list-group-item-action list-group-item-dark mb-5" style="background-color: black; color: aliceblue; border: 0px; border-radius: 7px ; ">
+                  <h5>${post.userEmail} publicó: </h5>
                   <p>${formatoFechaHora(post.fecha.toDate())}</p>
-                  <h5>${post.titulo}</h5>
+                  <h4>${post.titulo}</h4>
                   <p>${post.descripcion}</p>
-                  <img src="${post.imagenURL}" style="width:100%" />
-                  <button class="btn-delete" data-id="${doc.id}">Delete</button>
-                  <button class="btn-edit" data-id="${doc.id}">Edit</button>
-                  <button class="btn-like" data-id="${doc.id}">${iconoLike}</button>´
+                  <img src="${post.imagenURL}" style="width:100%; padding: 5%;border-radius: 5px;" />
+                  <button class="btn-like" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}">${iconoLike}</button>
                   <p> A ${post.personasLiked.length} personas les gusta esto. </p>
                 </li>
                 `
-            html += li
+                if (col == 1) {
+                    colIzq += li
+                    col = 2 
+                    console.log("entro iz");
+                }else{
+                    colDer += li
+                    col = 1
+                    console.log("entro der");
+                }
+           
         });
-        listaPostOtros.innerHTML = html
+        listaPost.innerHTML = colIzq
+        listaPostOtros.innerHTML = colDer
     } else {
         listaPostOtros.innerHTML = `<h1>Aun no hay posts que mostrar</h1>`
     }
 }
 
 
+function pintarPostLikes(datos) {
+    if (datos.length) {
+        let colIzq = ''
+        let colDer = ""
+        var col = 1
+        datos.forEach(doc => {
+            const post = doc.data()
+            let iconoLike = "";
+            if (post.personasLiked.includes(userEmail)) { //deberia pintarse la mano
+                iconoLike = `<i class="bi bi-heart-fill"></i>`
+            } else {//deberia despintarse
+                iconoLike = `<i class="bi bi-heart"></i>`
+            }
+            let li =""
+                if (post.userEmail == userEmail) {
+                     li = `
+                <li class="list-group-item list-group-item-action list-group-item-dark mb-5 " style="background-color: black; color: aliceblue; border: 0px; border-radius: 7px ; " >
+                    <h5>${post.userEmail} publicó: </h5>
+                    <p>${formatoFechaHora(post.fecha.toDate())}</p>
+                  <h4>${post.titulo}</h4>
+                  <p>${post.descripcion}</p>
+                  <img src="${post.imagenURL}" style="width:100%; padding: 5%; border-radius: 5px;" />
+                  <button class="btn-delete" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}"><i class="bi bi-trash3"></i></button>
+                  <button class="btn-edit" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}">Edit</button>
+                  <button class="btn-like" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}">${iconoLike}</button>
+                   <p> A ${post.personasLiked.length} personas les gusta esto. </p>
+                </li>
+                `
+                } else {
+                    li = `
+                    <li class="list-group-item list-group-item-action list-group-item-dark mb-5 " style="background-color: black; color: aliceblue; border: 0px; border-radius: 7px ; " >
+                        <h4>${post.userEmail} publicó: </h4>
+                        <p>${formatoFechaHora(post.fecha.toDate())}</p>
+                      <h5>${post.titulo}</h5>
+                      <p>${post.descripcion}</p>
+                      <img src="${post.imagenURL}" style="width:100%;  padding: 5%;border-radius: 5px;" />
+                      <button class="btn-like" style="background-color: transparent; color: aliceblue; border: 0px;" data-id="${doc.id}">${iconoLike}</button>
+                       <p> A ${post.personasLiked.length} personas les gusta esto. </p>
+                    </li>
+                    `
+                }
+           
+
+                if (col == 1) {
+                    colIzq += li
+                    col = 2 
+                    console.log("entro iz");
+                }else{
+                    colDer += li
+                    col = 1
+                    console.log("entro der");
+                }
+           
+        });
+        listaPost.innerHTML = colIzq
+        listaPostOtros.innerHTML = colDer
+    } else {
+        listaPost.innerHTML = `<h1>Aun no hay posts que mostrar</h1>`
+    }
+}
 
 
 
