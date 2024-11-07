@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RawMoment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/nav.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body  style="background-color: #ebd9c9;">
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg " style="background-color:#CBB2CD ;" id="barra">
+        <div class="container-fluid ms-auto" style="background-color:#CBB2CD ;">
+            <a class="navbar-brand" href="#"><img style="width: 15%;" src="img/logo.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse ms-auto" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item logged-in">
+                        <a class="nav-link" href="#" style="color: black;" id="logout">CERRAR</a>
+                    </li>
+                    <li class="nav-item logged-in">
+                        <a class="nav-link" href="index.html" style="color: black;" id="">INICIO</a>
+                    </li>
+                    <li class="nav-item logged-in">
+                        <a class="nav-link" href="likes.html" style="color: black;" id="">LIKES</a>
+                    </li>
+                    <li class="nav-item logged-in">
+                       <button type="button" style="border: 0px; background-color: transparent; padding: 8px;" data-bs-toggle="modal"
+                data-bs-target="#modal-crearPost" id="quePiensasBtn">Publicar</button>
+                    </li>
+                    <li class="nav-item logged-in">
+                        <a href="usuario.html"><img style="width: 50%;" class="d-inline" id="avatar-foto"
+                src="https://static.vecteezy.com/system/resources/previews/018/765/757/non_2x/user-profile-icon-in-flat-style-member-avatar-illustration-on-isolated-background-human-permission-sign-business-concept-vector.jpg" /> </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+ 
+
+ <!-- Modal Crear Post-->
+
+ <div class="modal fade" id="modal-crearPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #C29466; border-radius: 0%;">
+                <h5 class="modal-title" id="exampleModalLabel3">NUEVA PUBLICACIÓN</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario -->
+                <form id="form-createPost">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">titulo de Post</label>
+                        <input type="text" class="form-control" id="crearPost-titulo" aria-describedby="emailHelp">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">contenido</label>
+                        <textarea class="form-control row=3" id="crearPost-descripcion"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileInput" class="btn " style="background-color: #CAACD7; margin-left: 42%; width: 50px;">
+                            <i class="bi bi-camera-fill"></i>
+                        </label>
+                        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="mb-3">
+                        <div id="uploadedImage"></div>
+                    </div>
+                    <button type="submit" class="btn mb-4 w-100" style="background-color: #CAACD7;">PUBLICAR</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Post-->
+
+<div class="modal fade" id="modal-editarPost" tabindex="-1" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header o" 
+        style="background-color: #C29466; border-radius: 0%; padding-top:2%; padding-bottom: 0%;  ">
+            <h5 class="modal-title" id="exampleModalLabel4" style="font-size: 30px; text-align: center;">Editar Post</h5>
+            <button type="button" class="btn-close  mb-0" data-bs-dismiss="modal" aria-label="Close" style="padding-left: 5%;  padding-bottom: 0%;"></button>
+        </div>
+        <div class="modal-body">
+            <!-- Formulario -->
+            <form id="form-editarPost">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Titulo de Post</label>
+                    <input type="text" class="form-control" id="editarPost-titulo"
+                        aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Contenido</label>
+                    <textarea class="form-control row=3" id="editarPost-descripcion"></textarea>
+                </div>
+                <div class="mb-3  ">
+                    <label for="editFileInput" class="btn btn-primary  " style="background-color: #e6bfe9 ; border-color: #E8CCB1;    
+                    border-radius: 0px;
+                    height: 5vh;
+                    margin: auto;
+                    display: block;
+                    color: #000000;
+                    width: 30%;
+                    height: 20%;
+
+                    " >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20%" height="20%" margin="auto" fill="currentColor"
+                        class="bi bi-camera" viewBox="0 0 16 16">
+                        <path
+                            d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z" />
+                        <path
+                            d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
+                    </svg>
+                    </label>
+                    <input type="file" id="editFileInput" accept="image/*" style="display: none;">
+                </div>
+                <div class="mb-3">
+                    <div id="editImage"></div>
+                </div>
+                <button type="submit" class="btn btn-primary mb-4 w-100" style="background-color: #CBB2CD; border-color: #e6bfe9; border-radius: 0%;">Actualizar Post</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+  <!-- Lista de Posts -->
+  <div class="container p-4">
+    <div class="row">
+        <div class="col-md-6"> <!--MIS POSTS-->
+            <ul class="list-group" id="posts">
+
+            </ul>
+        </div>
+        <div class="col-md-6"> <!--OTROS POSTS-->
+            <ul class="list-group" id="posts-otros">
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+<script type="module" src="firebase.js"></script>
+
+<script type="module" src="firestore.js"></script>
+</body>
+</html>
